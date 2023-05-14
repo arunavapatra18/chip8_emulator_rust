@@ -132,7 +132,7 @@ impl Emu {
         let digit1 = (op & 0xF000) >> 12;
         let digit2 = (op & 0x0F00) >> 8;
         let digit3 = (op & 0x00F0) >> 4;
-        let digit4 = (op & 0x000F);
+        let digit4 = op & 0x000F;
 
         match (digit1, digit2, digit3, digit4) {
             //NOP
@@ -470,5 +470,21 @@ impl Emu {
             //Unimplemented Case : Mandatory for RUST
             (_, _, _, _) => unimplemented!("Unimplemented opcode: {}", op),
         }
+    }
+
+    // Returns display array to frontend
+    pub fn get_display(&self) -> &[bool] {
+        &self.screen
+    }
+
+    // Handles keypress
+    pub fn keypress(&mut self, idx: usize, pressed: bool) {
+        self.keys[idx] = pressed;
+    }
+
+    pub fn load(&mut self, data: &[u8]) {
+        let start = START_ADDR as usize;
+        let end = (START_ADDR as usize) + data.len();
+        self.ram[start..end].copy_from_slice(data);
     }
 }
