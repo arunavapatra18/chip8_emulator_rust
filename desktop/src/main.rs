@@ -73,6 +73,7 @@ fn draw_screen(emu: &Emu, canvas: &mut Canvas<Window>) {
     let screen_buf = emu.get_display();
 
     // Now set draw color white, iterate through each point and see if it should be drawn
+    canvas.set_draw_color(Color::RGB(255, 255, 255));
     for (i, pixel) in screen_buf.iter().enumerate() {
         if *pixel {
             // Convert our 1D array's index into a 2D (x,y) position
